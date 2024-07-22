@@ -139,7 +139,7 @@ class ConfigController extends Controller
             'currency_symbol' => $currencySymbol,
             'delivery_charge' => (float)$this->businessSetting->where(['key' => 'delivery_charge'])->first()->value,
             'delivery_management' => $deliveryManagement,
-            'branches' => $this->branch->all(['id', 'name', 'email', 'longitude', 'latitude', 'address', 'coverage', 'status', 'image', 'cover_image', 'preparation_time']),
+            'branches' => $this->branch->all(['id', 'name', 'email', 'longitude', 'latitude', 'address', 'coverage', 'status', 'cover_image', 'preparation_time']),
             'email_verification' => (boolean)Helpers::get_business_settings('email_verification') ?? 0,
             'phone_verification' => (boolean)Helpers::get_business_settings('phone_verification') ?? 0,
             'currency_symbol_position' => Helpers::get_business_settings('currency_symbol_position') ?? 'right',

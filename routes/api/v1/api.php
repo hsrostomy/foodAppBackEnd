@@ -42,6 +42,8 @@ Route::group(['namespace' => 'Api\V1', 'middleware' => 'localization'], function
         Route::post('verify-email', [CustomerAuthController::class, 'verifyEmail']);
         Route::post('firebase-auth-verify', [CustomerAuthController::class, 'firebaseAuthVerify']);
 
+        Route::post('verify-email-phone', [CustomerAuthController::class, 'verify_email_phone']);
+
         Route::post('forgot-password', [PasswordResetController::class, 'passwordResetRequest']);
         Route::post('verify-token', [PasswordResetController::class, 'verifyToken']);
         Route::put('reset-password', [PasswordResetController::class, 'resetPasswordSubmit']);

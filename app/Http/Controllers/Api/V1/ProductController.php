@@ -7,6 +7,8 @@ use App\CentralLogics\ProductLogic;
 use App\Http\Controllers\Controller;
 use App\Model\Order;
 use App\Model\Product;
+use App\Model\Category;
+use App\Model\Banner;
 use App\Model\ProductByBranch;
 use App\Model\Review;
 use App\Model\Tag;
@@ -32,6 +34,20 @@ class ProductController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
+
+     public function all_products(Request $request)
+     {
+       
+         $categories = Category::where(['position'=>0,'status'=>1])->get();
+         $banner= Banner::active()->get();
+         $arrays=[];
+        foreach($banner as $object) {  $arrays[] ='/storage/app/public/banner/'.$object->image;}
+         $products = ProductLogic::get_latest_productssss($request['limit'], $request['offset'], $request['product_type'], $request['name'], $request['category_ids']);
+         $products['products'] = Helpers::product_data_formatting($products['products'], true);
+        return response()->json(['baners'=>$arrays,'categories'=>$categories,'products'=>$products,'status'=>'ok'], 200);
+     }
+
+     
     public function latestProducts(Request $request): JsonResponse
     {
         Helpers::update_daily_product_stock();

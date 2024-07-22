@@ -15,6 +15,27 @@ class ProductLogic
         return Product::active()->branchProductAvailability()->with(['rating', 'branch_product'])->where('id', $id)->first();
     }
 
+    public static function get_latest_productssss($limit, $offset, $product_type, $name, $category_ids)
+
+    {
+         $limit = is_null($limit) ? 1000 : $limit;
+         $offset = is_null($offset) ? 1 : $offset;
+ 
+         $key = explode(' ', $name);
+         $paginator = Product::active()->where(function ($q) use ($key) {
+                 foreach ($key as $value) {
+                     $q->orWhere('name', 'like', "%{$value}%");
+                 }})
+             ->get();
+            
+         /*$paginator->count();*/
+         return [
+             
+             'products' => $paginator,
+         ];
+     }
+     
+
     public static function get_latest_products($limit, $offset, $product_type, $name, $category_ids, $sort_by)
     {
         $limit = is_null($limit) ? 10 : $limit;

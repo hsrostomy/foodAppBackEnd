@@ -36,12 +36,29 @@ class CustomerAuthController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
+
+     public function verify_email_phone(Request $request)
+    {
+        $validator = Validator::make(
+        $request->all(), [
+            'phone' => 'required|unique:users|min:5|max:20',
+        ], [
+            'f_name.required' => translate('The first name field is required.'),
+            'l_name.required' => translate('The last name field is required.'),
+        ] );
+        if ($validator->fails()) {
+            return response()->json(['errors' => Helpers::error_processor($validator),'status'=>'Forbidden'], 403);
+        }
+        return response()->json(['message' =>'phone and email not exist','status'=>'ok'], 200);
+    }
+
+    
     public function registration(Request $request): JsonResponse
     {
         $validator = Validator::make($request->all(), [
             'f_name' => 'required',
             'l_name' => 'required',
-            'email' => 'required|unique:users',
+           // 'email' => 'required|unique:users',
             'phone' => 'required|unique:users|min:5|max:20',
             'password' => 'required|min:6',
         ], [
@@ -62,7 +79,7 @@ class CustomerAuthController extends Controller
         $user = $this->user->create([
             'f_name' => $request->f_name,
             'l_name' => $request->l_name,
-            'email' => $request->email,
+           // 'email' => $request->email,
             'phone' => $request->phone,
             'password' => bcrypt($request->password),
             'temporary_token' => $temporaryToken,
@@ -497,7 +514,8 @@ class CustomerAuthController extends Controller
                 $user->updated_at = now();
                 $user->save();
 
-                return response()->json(['token' => $token, 'status' => true], 200);
+                //return response()->json(['token' => $token, 'status' => true], 200);
+                return response()->json(['token' => $token,'data'=>$user,'status'=>'ok','type_token'=>'bearer'], 200);
             }
 
             else{
