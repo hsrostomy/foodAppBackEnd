@@ -152,12 +152,12 @@ Route::group(['namespace' => 'Api\V1', 'middleware' => 'localization'], function
         });
 
         Route::group(['prefix' => 'order'], function () {
-            Route::get('track', [OrderController::class, 'trackOrder'])->withoutMiddleware(['auth:api', 'is_active']);
-            Route::post('place', [OrderController::class, 'placeOrder'])->withoutMiddleware(['auth:api', 'is_active']);
-            Route::get('list', [OrderController::class, 'getOrderList'])->withoutMiddleware(['auth:api', 'is_active']);
-            Route::get('details', [OrderController::class, 'getOrderDetails'])->withoutMiddleware(['auth:api', 'is_active']);
-            Route::put('cancel', [OrderController::class, 'cancelOrder'])->withoutMiddleware(['auth:api', 'is_active']);
-            Route::put('payment-method', [OrderController::class, 'updatePaymentMethod'])->withoutMiddleware(['auth:api', 'is_active']);
+            Route::get('track', [OrderController::class, 'track_order'])->withoutMiddleware(['auth:api', 'is_active']);
+            Route::post('place', [OrderController::class, 'place_order'])->withoutMiddleware(['auth:api', 'is_active']);
+            Route::get('list', [OrderController::class, 'get_order_list'])->withoutMiddleware(['auth:api', 'is_active']);
+            Route::get('details', [OrderController::class, 'get_order_details'])->withoutMiddleware(['auth:api', 'is_active']);
+            Route::put('cancel', [OrderController::class, 'cancel_order'])->withoutMiddleware(['auth:api', 'is_active']);
+            Route::put('payment-method', [OrderController::class, 'update_payment_method'])->withoutMiddleware(['auth:api', 'is_active']);
             Route::post('guest-track', [OrderController::class, 'guestTrackOrder'])->withoutMiddleware(['auth:api', 'is_active']);
             Route::post('details-guest', [OrderController::class, 'getGuestOrderDetails'])->withoutMiddleware(['auth:api', 'is_active']);
         });
