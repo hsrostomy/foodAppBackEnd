@@ -135,7 +135,7 @@ Route::group(['namespace' => 'Api\V1', 'middleware' => 'localization'], function
 
     Route::group(['prefix' => 'customer', 'middleware' => ['auth:api', 'is_active']], function () {
         Route::get('info', [CustomerController::class, 'info']);
-        Route::put('update-profile', [CustomerController::class, 'updateProfile']);
+        Route::put('update-profile', [CustomerController::class, 'update_profile']);
         Route::put('cm-firebase-token', [CustomerController::class, 'updateFirebaseToken'])->withoutMiddleware(['auth:api', 'is_active']);
         Route::get('transaction-history', [CustomerController::class, 'getTransactionHistory']);
 

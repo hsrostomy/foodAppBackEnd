@@ -97,6 +97,8 @@ class CustomerController extends Controller
      * @param $id
      * @return JsonResponse
      */
+
+     
     public function updateAddress(Request $request, $id): JsonResponse
     {
         $validator = Validator::make($request->all(), [
@@ -184,40 +186,33 @@ class CustomerController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-    public function updateProfile(Request $request): JsonResponse
+
+     public function update_profile(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'f_name' => 'required',
-            'l_name' => 'required',
-            'phone' => 'required',
-        ], [
-            'f_name.required' => translate('first_name_required'),
-            'l_name.required' => translate('last_name_required'),
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(['errors' => Helpers::error_processor($validator)], 403);
-        }
-
+       $user = User::where('id',$request['user_id'])->get();
+       
+      
         if ($request['password'] != null && strlen($request['password']) > 5) {
-            $password = bcrypt($request['password']);
+            $pass = bcrypt($request['password']);
         } else {
-            $password = $request->user()->password;
+            $pass=$user->password;
         }
-
+        if ($request['f_name']  && $request['f_name'] != "")  $f_name =$request['f_name'];
+        else  $f_name =$user->f_name;
+        if ($request['l_name']  && $request['l_name'] != "")  $l_name =$request['l_name'];
+        else  $l_name =$user->l_name;
         $userDetails = [
-            'f_name' => $request->f_name,
-            'l_name' => $request->l_name,
-            'phone' => $request->phone,
-            'image' => $request->has('image') ? Helpers::update('profile/', $request->user()->imagee, 'png', $request->file('image')) : $request->user()->image,
-            'password' => $password,
+            'f_name' => $f_name,
+            'l_name' => $l_name,
+           
+         // 'image' => $request->has('image') ? Helpers::update('profile/', $request->user()->imagee, 'png', $request->file('image')) : $request->user()->image,
+            'password' => $pass,
             'updated_at' => now(),
         ];
-
-        $this->user->where(['id' => $request->user()->id])->update($userDetails);
-
-        return response()->json(['message' => translate('update_success')], 200);
+        User::where(['id' => $request['user_id']])->update($userDetails);
+        return response()->json(['message' => 'update_success','status'=>"ok"], 200);
     }
+   
 
     /**
      * @param Request $request
