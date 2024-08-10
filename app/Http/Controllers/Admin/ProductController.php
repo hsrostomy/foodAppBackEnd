@@ -171,9 +171,7 @@ class ProductController extends Controller
             'image' => 'required',
             'price' => 'required|numeric',
             'item_type' => 'required',
-            'product_type' => 'required|in:veg,non_veg',
             'discount_type' => 'required',
-            'tax_type' => 'required',
             'stock_type' => 'required|in:unlimited,daily,fixed',
             'product_stock' => 'required_if:stock_type,daily,fixed',
         ], [
@@ -295,13 +293,13 @@ class ProductController extends Controller
         $product->variations = json_encode($variations);
         $product->price = $request->price;
         $product->set_menu = $request->item_type;
-        $product->product_type = $request->product_type;
+       // $product->product_type = "veg";
         $product->image = Helpers::upload('product/', 'png', $request->file('image'));
         $product->available_time_starts = $request->available_time_starts;
         $product->available_time_ends = $request->available_time_ends;
 
-        $product->tax = $request->tax_type == 'amount' ? $request->tax : $request->tax;
-        $product->tax_type = $request->tax_type;
+        //$product->tax = $request->tax_type == 'amount' ? $request->tax : $request->tax;
+        //s$product->tax_type = $request->tax_type;
 
         $product->discount = $request->discount_type == 'amount' ? $request->discount : $request->discount;
         $product->discount_type = $request->discount_type;
